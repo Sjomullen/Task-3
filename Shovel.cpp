@@ -32,7 +32,7 @@
  */
 std::string Shovel::GetDescription() const
 {
-    return std::string();
+    return std::string("Shovel" + std::to_string(this->bladeWidth) + "m blade width, " + Product::GetDescription());
 }
 
 /**
@@ -41,9 +41,9 @@ std::string Shovel::GetDescription() const
  * 
  * Calls the constructor of the direct base class.      
  */
-Shovel::Shovel(float price, float bladeWidth) : Product(float())
+Shovel::Shovel(float price, float bladeWidth) : Product(price)
 {
-
+    this->bladeWidth = bladeWidth;
 }
 
 /**
@@ -53,7 +53,7 @@ Shovel::Shovel(float price, float bladeWidth) : Product(float())
  */
 float Shovel::GetBladeWidth() const
 {
-    return float();
+    return this->bladeWidth;
 }
 
 /**
@@ -70,7 +70,7 @@ float Shovel::GetBladeWidth() const
  */
 float Shovel::GetStorageVolume() const
 {
-    return float();
+    return GetBladeWidth() * 0.30f * 1.50f;
 }
 
 /**
@@ -89,5 +89,5 @@ float Shovel::GetStorageVolume() const
  */
 Product* Shovel::Clone() const
 {
-    return new Shovel();
+    return new Shovel(Product::GetPrice(), Shovel::GetBladeWidth());
 }

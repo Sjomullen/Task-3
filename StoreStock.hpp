@@ -67,8 +67,11 @@ public:
 template <typename T>
 T* StoreStock::GetCheapest() const
 {
-	return nullptr;
+	T* min_price = std::numeric_limits<T*>::max();
+
+	return min_price;
 }
+
 
 /**
  * Note: use dynamic_cast.
@@ -78,5 +81,17 @@ T* StoreStock::GetCheapest() const
 template <typename T>
 int StoreStock::GetNumberOf() const
 {
-	return int();
+	int count = 0;
+
+	for (const Product* product : products)
+	{
+		T* casted_product = dynamic_cast<T*>(product);
+		if (casted_product != nullptr)
+		{
+			count++;
+		}
+	}
+
+	return count;
 }
+

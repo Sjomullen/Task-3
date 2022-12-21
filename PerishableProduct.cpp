@@ -32,7 +32,7 @@
  */
 std::string PerishableProduct::GetDescription() const
 {
-    return std::string();
+    return std::string("Expires" + expirationDate.GetString() + "," + Product::GetDescription());
 }
 
 /**
@@ -42,9 +42,9 @@ std::string PerishableProduct::GetDescription() const
  * Calls the constructor of the direct base class.      
  */
 PerishableProduct::PerishableProduct(float price, const Date& expirationDate)
-    : Product(float())
+    : Product(price)
 {
-
+    this->expirationDate = expirationDate;
 }
 
 /**

@@ -13,7 +13,7 @@
  */
 StoreStock::StoreStock()
 {
-
+    std::vector<Product*> products;
 }
 
 /**
@@ -22,10 +22,14 @@ StoreStock::StoreStock()
  * 
  * @param other An object to create a copy of.
  */
-StoreStock::StoreStock(const StoreStock& other)
+StoreStock::StoreStock(const StoreStock& other) : products()
 {
-
+    for (const Product* product : other.products)
+    {
+        products.push_back(product->Clone());
+    }
 }
+
 
 /**
  * Sets the object in a destrubtable state.
@@ -34,8 +38,12 @@ StoreStock::StoreStock(const StoreStock& other)
  */
 StoreStock::~StoreStock()
 {
-
+    for (Product* product : products)
+    {
+        delete product;
+    }
 }
+
 
 /**
  * Makes the object an exact copy of another StoreStock object by freeing all
@@ -47,7 +55,16 @@ StoreStock::~StoreStock()
  */
 StoreStock& StoreStock::operator=(const StoreStock& other)
 {
-    return *this;
+    if (this == &other)
+    {
+        return *this;
+    }
+
+    for (Product* product : products)
+    {
+        delete product;
+    }
+    products.clear();
 }
 
 /**
@@ -57,8 +74,9 @@ StoreStock& StoreStock::operator=(const StoreStock& other)
  */
 int StoreStock::GetSize() const
 {
-    return int();
+    return products.size();
 }
+
 
 /**
  * Accumulates the price of all existing products.
@@ -67,8 +85,19 @@ int StoreStock::GetSize() const
  */
 float StoreStock::GetTotalCost() const
 {
-    return float();
+    float total_cost = 0.0f;
+
+    for (const Product* product : products)
+    {
+        total_cost += product->GetPrice();
+    }
+
+    return total_cost;
 }
+
+
+
+
 
 /**
  * Adds a new product to the object.
@@ -83,8 +112,17 @@ float StoreStock::GetTotalCost() const
  */
 bool StoreStock::AddProduct(Product* product)
 {
-    return bool();
+    if (product == nullptr)
+    {
+        return false;
+    }
+
+    if (std::find(products.begin(), products.end(), product) != products.end())
+    {
+        return false;
+    }
 }
+
 
 /**
  * Releases the responsibility an existing product from the object, without
@@ -101,8 +139,18 @@ bool StoreStock::AddProduct(Product* product)
  */
 bool StoreStock::ReleaseProduct(Product* product)
 {
-    return bool();
+    if (product == nullptr)
+    {
+        return false;
+    }
+
+    auto it = std::find(products.begin(), products.end(), product);
+    if (it == products.end())
+    {
+        return false;
+    }
 }
+
 
 /**
  * Retrieves the total amount of volume needed to store all products in the
@@ -114,5 +162,12 @@ bool StoreStock::ReleaseProduct(Product* product)
  */
 float StoreStock::GetRequiredStorageVolume() const
 {
-    return float();
+    float total_volume = 0.0f;
+
+    for (const Product* product : products)
+    {
+        total_volume += product->GetStorageVolume();
+    }
+
+    return total_volume;
 }

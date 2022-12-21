@@ -24,7 +24,7 @@
  */
 std::string Product::GetDescription() const
 {
-    return std::string(std::to_string(this->price) + "Kronor");
+    return std::string(std::to_string(this->price) + "kr");
 }
 
 /**

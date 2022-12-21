@@ -33,7 +33,7 @@
  */
 std::string Milk::GetDescription() const
 {
-    return std::string();
+    return std::string("Milk" + std::to_string(this->liters) + "liter" + PerishableProduct::GetDescription());
 }
 
 
@@ -47,8 +47,6 @@ Milk::Milk(float price, const Date& expirationDate, float liters)
     : PerishableProduct(price, expirationDate)
 {
     this->liters = liters;
-
-    return liters;
 }
 
 /**
@@ -73,7 +71,7 @@ float Milk::GetLiters() const
  */
 float Milk::GetStorageVolume() const
 {
-    return float();
+    return this->liters / 1000.f;
 }
 
 /**
@@ -92,5 +90,5 @@ float Milk::GetStorageVolume() const
  */
 Product* Milk::Clone() const
 {
-    return new Milk(Product::GetPrice(), PerishableProduct::GetExpirationDate(),;
+    return new Milk(Product::GetPrice(), PerishableProduct::GetExpirationDate(),Milk::GetLiters());
 }
